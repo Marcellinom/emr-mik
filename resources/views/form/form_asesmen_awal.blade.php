@@ -118,16 +118,16 @@
                                 <input type="text" id="kepala" name="kepala" required>
                             </div>
                             <div class="form-item">
-                                <label>Kepala <span class="text-danger">*</span> </label>
-                                <input type="text" id="kepala" name="kepala" required>
+                                <label>Lidah <span class="text-danger">*</span> </label>
+                                <input type="text" id="lidah" name="lidah" required>
                             </div>
                             <div class="form-item">
-                                <label>Kepala <span class="text-danger">*</span> </label>
-                                <input type="text" id="kepala" name="kepala" required>
+                                <label>Punggung <span class="text-danger">*</span> </label>
+                                <input type="text" id="punggung" name="punggung" required>
                             </div>
                             <div class="form-item">
-                                <label>Kepala <span class="text-danger">*</span> </label>
-                                <input type="text" id="kepala" name="kepala" required>
+                                <label>Kuku Tangan <span class="text-danger">*</span> </label>
+                                <input type="text" id="kuku_tangan" name="kuku_tangan" required>
                             </div>
                             <div class="form-item">
                                 <label>Mata <span class="text-danger">*</span> </label>
