@@ -27,6 +27,7 @@ Route::get('/pesanan-obat', [MasterDataController::class, 'getPesananObat']);
 
 // tab asesmen
 Route::get('/antrian_asesmen', [AsesmenController::class, 'getAsesmenPage']);
+Route::get('/asesmen', [AsesmenController::class, 'invokeAsesmen']);
 Route::post('/asesmen', [AsesmenController::class, 'tambahAsesmen']);
 
 // tab pendaftaran

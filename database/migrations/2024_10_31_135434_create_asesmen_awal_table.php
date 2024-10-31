@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('asesmen_awal', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_riwayat');
+            $table->unsignedBigInteger('id_riwayat')->index();
 
             $table->string("denyut_jantung");
             $table->string("pernapasan");

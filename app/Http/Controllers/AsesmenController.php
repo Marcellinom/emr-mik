@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AsesmenAwal;
+use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function compact;
+use function redirect;
 use function view;
 
 class AsesmenController extends Controller
@@ -18,7 +21,17 @@ class AsesmenController extends Controller
         return view('asesmen_awal.index', compact('data_antrian'));
     }
 
-    public function tambahAsesmen(Request $request) {
+    public function invokeAsesmen(Request $request) {
+        $id_registrasi = $request->query('id_registrasi');
+        return redirect('isi_asesmen')->with('id_registrasi', $id_registrasi);
+    }
 
+    public function tambahAsesmen(Request $request) {
+        DB::table('riwayat')->where('id', $request->input('id_riwayat'))
+            ->update([
+                'status' =>'Pemeriksaan'
+            ]);
+        AsesmenAwal::create($request->input());
+        return redirect('antrian_asesmen');
     }
 }

@@ -65,7 +65,7 @@
                     <td>{{sprintf("REG%08d", $row->no_registrasi)}}</td>
                     <td>{{sprintf("RM%08d", $row->no_rm)}}</td>
                     <td>{{$row->tanggal_lahir}}</td>
-                    <td><button class="btn btn-warning text-white font-weight-bold" style="border-radius: 25px;">Proses Asesmen ></button> </td>
+                    <td><a href="asesmen?id_registrasi={{$row->no_registrasi}}" class="btn btn-warning text-white font-weight-bold" style="border-radius: 25px;">Proses Asesmen ></a> </td>
                     <td>
                         <button class="btn btn-primary">edit</button>
                         <button class="btn btn-warning">cetak</button>

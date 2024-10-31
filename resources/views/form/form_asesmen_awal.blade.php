@@ -8,7 +8,7 @@
     <i class="bi bi-person-plus-fill"></i> Pengisian Data
 @endsection
 
-@section('prescripts')
+@section('prestyles')
     <style>
         .container {
             display: flex;
@@ -44,8 +44,43 @@
     </style>
 @endsection
 
+@section('scripts')
+    <script>
+        $("#semua-normal").click(e => {
+            if($("#semua-normal").is(":checked")) {
+                $("#pemeriksaan-detail").hide()
+
+                for(let i of document.getElementById("form-head-to-toe").querySelectorAll('input')) {
+                    i.value = null
+                }
+            } else {
+                $("#pemeriksaan-detail").show()
+            }
+        })
+        $("#submit-btn").click(e => {
+            e.preventDefault()
+            let input_element = document.querySelectorAll('input')
+            for (let input of input_element) {
+                if (input.required) {
+                    if (input.value == null || input.value == "") {
+                        alert("mohon isi semua form yang memiliki simbol (*)")
+                        return
+                    }
+                }
+            }
+            let id_riwayat = $("#hidden-id-riwayat").val()
+            if (id_riwayat == "" || id_riwayat == null) {
+                alert("terjadi kesalahan, id riwayat tidak ditemukan")
+            }
+            $("#form-asesmen").submit()
+        })
+    </script>
+@endsection
+
 @section('content-body')
-    <form method="post" action="asesmen">
+    <form id="form-asesmen" method="post" action="asesmen">
+        @csrf
+        <input type="hidden" name="id_riwayat" value="{{Session::get('id_registrasi')}}" id="hidden-id-riwayat">
         <h5 class="text-primary">Tanda Vital</h5>
         <div class="container">
             <div class="form-item">
@@ -102,9 +137,9 @@
         </div>
         <hr>
         <div class="container">
-            <button data-toggle="modal" type="button" data-target="#head-to-toe" class="btn btn-primary">Pemeriksaan Head to Toe</button>
-            <input type="checkbox"><span style="margin-top: auto; margin-bottom: auto">Semua Normal</span>
-            <button type="button" class="btn btn-primary" style="margin-left: auto">Save changes</button>
+            <button id="pemeriksaan-detail" data-toggle="modal" type="button" data-target="#head-to-toe" class="btn btn-primary">Pemeriksaan Head to Toe</button>
+            <input id="semua-normal" type="checkbox"><span style="margin-top: auto; margin-bottom: auto">Semua Normal</span>
+            <button id="submit-btn" type="button" class="btn btn-success" style="margin-left: auto">Simpan</button>
         </div>
 
         <div class="modal fade" id="head-to-toe" tabindex="-1" role="dialog"aria-hidden="true">
@@ -112,123 +147,123 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <h5 class="text-primary">Pemeriksaan Head to Toe</h5>
-                        <div class="container">
+                        <div class="container" id="form-head-to-toe">
                             <div class="form-item">
-                                <label>Kepala <span class="text-danger">*</span> </label>
-                                <input type="text" id="kepala" name="kepala" required>
+                                <label>Kepala  </label>
+                                <input type="text" id="kepala" name="kepala" >
                             </div>
                             <div class="form-item">
-                                <label>Lidah <span class="text-danger">*</span> </label>
-                                <input type="text" id="lidah" name="lidah" required>
+                                <label>Lidah  </label>
+                                <input type="text" id="lidah" name="lidah" >
                             </div>
                             <div class="form-item">
-                                <label>Punggung <span class="text-danger">*</span> </label>
-                                <input type="text" id="punggung" name="punggung" required>
+                                <label>Punggung  </label>
+                                <input type="text" id="punggung" name="punggung" >
                             </div>
                             <div class="form-item">
-                                <label>Kuku Tangan <span class="text-danger">*</span> </label>
-                                <input type="text" id="kuku_tangan" name="kuku_tangan" required>
+                                <label>Kuku Tangan  </label>
+                                <input type="text" id="kuku_tangan" name="kuku_tangan" >
                             </div>
                             <div class="form-item">
-                                <label>Mata <span class="text-danger">*</span> </label>
-                                <input type="text" id="mata" name="mata" required>
+                                <label>Mata  </label>
+                                <input type="text" id="mata" name="mata" >
                             </div>
                             <div class="form-item">
-                                <label>Langit-Langit <span class="text-danger">*</span> </label>
-                                <input type="text" id="langit_langit" name="langit_langit" required>
+                                <label>Langit-Langit  </label>
+                                <input type="text" id="langit_langit" name="langit_langit" >
                             </div>
                             <div class="form-item">
-                                <label>Perut <span class="text-danger">*</span> </label>
-                                <input type="text" id="perut" name="perut" required>
+                                <label>Perut  </label>
+                                <input type="text" id="perut" name="perut" >
                             </div>
                             <div class="form-item">
-                                <label>Persendian Tangan <span class="text-danger">*</span> </label>
-                                <input type="text" id="persendian_tangan" name="persendian_tangan" required>
+                                <label>Persendian Tangan  </label>
+                                <input type="text" id="persendian_tangan" name="persendian_tangan" >
                             </div>
                             <div class="form-item">
-                                <label>Telinga <span class="text-danger">*</span> </label>
-                                <input type="text" id="telinga" name="telinga" required>
+                                <label>Telinga  </label>
+                                <input type="text" id="telinga" name="telinga" >
                             </div>
                             <div class="form-item">
-                                <label>Leher <span class="text-danger">*</span> </label>
-                                <input type="text" id="leher" name="leher" required>
+                                <label>Leher  </label>
+                                <input type="text" id="leher" name="leher" >
                             </div>
                             <div class="form-item">
-                                <label>Genital <span class="text-danger">*</span> </label>
-                                <input type="text" id="genital" name="genital" required>
+                                <label>Genital  </label>
+                                <input type="text" id="genital" name="genital" >
                             </div>
                             <div class="form-item">
-                                <label>Tungkai Atas <span class="text-danger">*</span> </label>
-                                <input type="text" id="tungkai_atas" name="tungkai_atas" required>
+                                <label>Tungkai Atas  </label>
+                                <input type="text" id="tungkai_atas" name="tungkai_atas" >
                             </div>
                             <div class="form-item">
-                                <label>Hidung <span class="text-danger">*</span> </label>
-                                <input type="text" id="hidung" name="hidung" required>
+                                <label>Hidung  </label>
+                                <input type="text" id="hidung" name="hidung" >
                             </div>
                             <div class="form-item">
-                                <label>Tenggorokan <span class="text-danger">*</span> </label>
-                                <input type="text" id="tenggorokan" name="tenggorokan" required>
+                                <label>Tenggorokan  </label>
+                                <input type="text" id="tenggorokan" name="tenggorokan" >
                             </div>
                             <div class="form-item">
-                                <label>Anus/Dubur <span class="text-danger">*</span> </label>
-                                <input type="text" id="anus_dubur" name="anus_dubur" required>
+                                <label>Anus/Dubur  </label>
+                                <input type="text" id="anus_dubur" name="anus_dubur" >
                             </div>
                             <div class="form-item">
-                                <label>Tungkai Bawah <span class="text-danger">*</span> </label>
-                                <input type="text" id="tungkai_bawah" name="tungkai_bawah" required>
+                                <label>Tungkai Bawah  </label>
+                                <input type="text" id="tungkai_bawah" name="tungkai_bawah" >
                             </div>
                             <div class="form-item">
-                                <label>Rambut <span class="text-danger">*</span> </label>
-                                <input type="text" id="rambut" name="rambut" required>
+                                <label>Rambut  </label>
+                                <input type="text" id="rambut" name="rambut" >
                             </div>
                             <div class="form-item">
-                                <label>Tongsil <span class="text-danger">*</span> </label>
-                                <input type="text" id="tongsil" name="tongsil" required>
+                                <label>Tongsil  </label>
+                                <input type="text" id="tongsil" name="tongsil" >
                             </div>
                             <div class="form-item">
-                                <label>Lengan Atas <span class="text-danger">*</span> </label>
-                                <input type="text" id="lengan_atas" name="lengan_atas" required>
+                                <label>Lengan Atas  </label>
+                                <input type="text" id="lengan_atas" name="lengan_atas" >
                             </div>
                             <div class="form-item">
-                                <label>Jari Kaki <span class="text-danger">*</span> </label>
-                                <input type="text" id="jari_kaki" name="jari_kaki" required>
+                                <label>Jari Kaki  </label>
+                                <input type="text" id="jari_kaki" name="jari_kaki" >
                             </div>
                             <div class="form-item">
-                                <label>Bibir <span class="text-danger">*</span> </label>
-                                <input type="text" id="bibir" name="bibir" required>
+                                <label>Bibir  </label>
+                                <input type="text" id="bibir" name="bibir" >
                             </div>
                             <div class="form-item">
-                                <label>Dada <span class="text-danger">*</span> </label>
-                                <input type="text" id="dada" name="dada" required>
+                                <label>Dada  </label>
+                                <input type="text" id="dada" name="dada" >
                             </div>
                             <div class="form-item">
-                                <label>Lengan Bawah <span class="text-danger">*</span> </label>
-                                <input type="text" id="lengan_bawah" name="lengan_bawah" required>
+                                <label>Lengan Bawah  </label>
+                                <input type="text" id="lengan_bawah" name="lengan_bawah" >
                             </div>
                             <div class="form-item">
-                                <label>Kuku Kaki <span class="text-danger">*</span> </label>
-                                <input type="text" id="kuku_kaki" name="kuku_kaki" required>
+                                <label>Kuku Kaki  </label>
+                                <input type="text" id="kuku_kaki" name="kuku_kaki" >
                             </div>
                             <div class="form-item">
-                                <label>Gigi Geligi <span class="text-danger">*</span> </label>
-                                <input type="text" id="gigi_geligi" name="gigi_geligi" required>
+                                <label>Gigi Geligi  </label>
+                                <input type="text" id="gigi_geligi" name="gigi_geligi" >
                             </div>
                             <div class="form-item">
-                                <label>Payudara <span class="text-danger">*</span> </label>
-                                <input type="text" id="payudara" name="payudara" required>
+                                <label>Payudara  </label>
+                                <input type="text" id="payudara" name="payudara" >
                             </div>
                             <div class="form-item">
-                                <label>Jari Tangan <span class="text-danger">*</span> </label>
-                                <input type="text" id="jari_tangan" name="jari_tangan" required>
+                                <label>Jari Tangan  </label>
+                                <input type="text" id="jari_tangan" name="jari_tangan" >
                             </div>
                             <div class="form-item">
-                                <label>Persendian Kaki <span class="text-danger">*</span> </label>
-                                <input type="text" id="persendian_kaki" name="persendian_kaki" required>
+                                <label>Persendian Kaki  </label>
+                                <input type="text" id="persendian_kaki" name="persendian_kaki" >
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="submit-btn" data-dismiss="modal">Simpan</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Simpan</button>
                     </div>
                 </div>
             </div>

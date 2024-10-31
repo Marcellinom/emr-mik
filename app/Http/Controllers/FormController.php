@@ -12,8 +12,7 @@ class FormController extends Controller
         return view('form.form_tambah_pasien');
     }
 
-    public function getIsiAsesmenPage(Request $request) {
-        $id_registrasi = $request->query('id_registrasi');
-        return view('form.form_asesmen_awal', compact('id_registrasi'));
+    public function getIsiAsesmenPage() {
+        return view('form.form_asesmen_awal');
     }
 }
