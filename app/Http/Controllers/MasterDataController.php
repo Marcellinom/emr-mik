@@ -29,6 +29,19 @@ class MasterDataController extends Controller
         return view("master_data.pasien", compact('data_pasien'));
     }
 
+    public function getPasienByIdRegistrasi(Request $request) {
+        $id = $request->query('id_registrasi');
+        $res = DB::select("
+            select p.nama, p.nik, p.jenis_kelamin, p.tanggal_lahir, p.no_rm, r.poliklinik_tujuan, d.nama as nama_dokter from pasien p
+            join riwayat r on r.id = ? and r.no_rm = p.no_rm
+            left join dokter d on d.id = r.id_dokter
+            limit 1
+        ", [$id]);
+        return response()->json([
+            'data' => $res
+        ]);
+    }
+
     public function getPasienByName(Request $request) {
         $name = $request->query('name');
         $res = DB::select("
