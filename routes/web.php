@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsesmenController;
+use App\Http\Controllers\PemeriksaanController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\MasterDataController;
@@ -25,14 +26,24 @@ Route::post("/pasien", [MasterDataController::class, 'newPasien']);
 Route::get('/obat', [MasterDataController::class, 'getObat']);
 Route::get('/pesanan-obat', [MasterDataController::class, 'getPesananObat']);
 
+// tab pendaftaran
+Route::get('/pendaftaran', [PendaftaranController::class, 'getPendaftaran']);
+Route::post('/pendaftaran', [PendaftaranController::class, 'newPendaftaran']);
+
 // tab asesmen
 Route::get('/antrian_asesmen', [AsesmenController::class, 'getAsesmenPage']);
 Route::get('/asesmen', [AsesmenController::class, 'invokeAsesmen']);
 Route::post('/asesmen', [AsesmenController::class, 'tambahAsesmen']);
 
-// tab pendaftaran
-Route::get('/pendaftaran', [PendaftaranController::class, 'getPendaftaran']);
-Route::post('/pendaftaran', [PendaftaranController::class, 'newPendaftaran']);
+// tab pemeriksaan
+Route::get('/antrian_pemeriksaan', [PemeriksaanController::class, 'getAntrianPemeriksaanPage']);
+Route::get('/pemeriksaan', [PemeriksaanController::class, 'invokePemeriksaan']);
+Route::prefix('pemeriksaan')->group(function () {
+    Route::get('/asesmen_awal/{id}', [PemeriksaanController::class, 'dataAsesmenAwal']);
+    Route::get('/soape/{id}', [PemeriksaanController::class, 'getSoape']);
+    Route::get('/penunjang/{id}', [PemeriksaanController::class, 'getPenunjang']);
+    Route::get('/resume_medis/{id}', [PemeriksaanController::class, 'getResumeMedis']);
+});
 
 // forms
 Route::get('/tambah_pasien', [FormController::class, 'getFormTambahPasien']);

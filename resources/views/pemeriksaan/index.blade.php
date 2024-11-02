@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('content-header')
-    Asesmen Awal
+    Pemeriksaan
 @endsection
 
 @section('content-header-specific')
-    <i class="bi bi-recycle"></i> Daftar Antrian Asesmen
+    <i class="bi bi-recycle"></i> Daftar Antrian Pemeriksaan Pasien
 @endsection
 
 @section('prestyles')
@@ -53,24 +53,24 @@
             <th>Nama Pasien</th>
             <th>No Registrasi</th>
             <th>No RM</th>
-            <th>Tanggal Lahir</th>
+            <th>Nomor Antrian</th>
             <th>Status</th>
             <th>Aksi</th>
         </tr>
         </thead>
         <tbody>
-            @foreach($data_antrian as $row)
-                <tr>
-                    <td>{{$row->nama}}</td>
-                    <td>{{sprintf("REG%08d", $row->no_registrasi)}}</td>
-                    <td>{{sprintf("RM%08d", $row->no_rm)}}</td>
-                    <td>{{$row->tanggal_lahir}}</td>
-                    <td><a href="asesmen?id_registrasi={{$row->no_registrasi}}" class="btn btn-warning text-white font-weight-bold" style="border-radius: 25px;">Proses Asesmen ></a> </td>
-                    <td>
-                        <button class="btn btn-danger">Hapus</button>
-                    </td>
-                </tr>
-            @endforeach
+        @foreach($data_antrian as $row)
+            <tr>
+                <td>{{$row->nama}}</td>
+                <td>{{sprintf("REG%08d", $row->no_registrasi)}}</td>
+                <td>{{sprintf("RM%08d", $row->no_rm)}}</td>
+                <td class="text-danger">{{sprintf("A%02d", $row->no_antrian)}}</td>
+                <td><a href="pemeriksaan?id_registrasi={{$row->no_registrasi}}" class="btn btn-warning text-white font-weight-bold" style="border-radius: 25px;">Periksa ></a> </td>
+                <td>
+                    <button class="btn btn-danger">Hapus</button>
+                </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
     <script>

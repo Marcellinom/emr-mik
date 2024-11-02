@@ -49,6 +49,7 @@ class AsesmenAwal extends Model
         "lengan_bawah",
         "kuku_kaki",
         "gigi_geligi",
+        "payudara",
         "jari_tangan",
         "persendian_kaki",
     ];

@@ -56,6 +56,12 @@
                     <span style="font-size: 1.3rem; color: grey; ">> @yield('content-header-specific')</span>
                 @endif
             </div>
+            @hasSection('content-body-upper')
+                <div style="background-color: white; padding: 10px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); border-radius: 20px">
+                    @yield('content-body-upper')
+                </div>
+            @endif
+            <br>
             <div style="background-color: white; padding: 10px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); border-radius: 20px">
             @yield('content-body')
             </div>

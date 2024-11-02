@@ -123,16 +123,16 @@
                 <input type="text" id="keluhan_utama" name="keluhan_utama" required>
             </div>
             <div class="form-item flex-2-col">
-                <label>Riwayat Alergi Obat <span class="text-danger">*</span> </label>
-                <input type="text" id="riwayat_alergi_obat" name="riwayat_alergi_obat" required>
+                <label>Riwayat Alergi Obat</label>
+                <input type="text" id="riwayat_alergi_obat" name="riwayat_alergi_obat">
             </div>
             <div class="form-item flex-2-col">
-                <label>Riwayat Penyakit <span class="text-danger">*</span> </label>
-                <input type="text" id="riwayat_penyakit" name="riwayat_penyakit" required>
+                <label>Riwayat Penyakit</label>
+                <input type="text" id="riwayat_penyakit" name="riwayat_penyakit">
             </div>
             <div class="form-item flex-2-col">
-                <label>Riwayat Pengobatan <span class="text-danger">*</span> </label>
-                <input type="text" id="riwayat_pengobatan" name="riwayat_pengobatan" required>
+                <label>Riwayat Pengobatan</label>
+                <input type="text" id="riwayat_pengobatan" name="riwayat_pengobatan">
             </div>
         </div>
         <hr>

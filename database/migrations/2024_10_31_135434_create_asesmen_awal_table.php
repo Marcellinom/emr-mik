@@ -25,9 +25,9 @@ return new class extends Migration
             $table->string("berat_badan");
             $table->string("tinggi_badan");
             $table->string("keluhan_utama");
-            $table->string("riwayat_alergi_obat");
-            $table->string("riwayat_penyakit");
-            $table->string("riwayat_pengobatan");
+            $table->string("riwayat_alergi_obat")->nullable();
+            $table->string("riwayat_penyakit")->nullable();
+            $table->string("riwayat_pengobatan")->nullable();
             // head to toe
             $table->string("kepala")->nullable();
             $table->string("lidah")->nullable();
@@ -54,6 +54,7 @@ return new class extends Migration
             $table->string("lengan_bawah")->nullable();
             $table->string("kuku_kaki")->nullable();
             $table->string("gigi_geligi")->nullable();
+            $table->string("payudara")->nullable();
             $table->string("jari_tangan")->nullable();
             $table->string("persendian_kaki")->nullable();
 

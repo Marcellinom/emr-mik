@@ -20,13 +20,13 @@
     </div>
 
     <div class="bd-toc-item"> {{--ini collapsible--}}
-        <a href="#" data-toggle="collapse" class="nav-link" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+        <a href="#" data-toggle="collapse" class="nav-link" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
             <i class="bi bi-database"></i>
             <span>Master Data</span>
             <i class="bi bi-caret-down-fill"></i>
         </a>
     </div>
-    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion"> {{--ini isi collapsible nya--}}
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#bd-docs-nav"> {{--ini isi collapsible nya--}}
         <a href="/pasien" class="nav-link">
             &emsp;
             <span>Data Pasien</span>
@@ -53,7 +53,7 @@
     </div>
 
     <div class="bd-toc-item">
-        <a href="#" class="nav-link">
+        <a href="antrian_pemeriksaan" class="nav-link">
             <i class="bi bi-bandaid-fill"></i>
             <span>Pemeriksaan</span>
         </a>

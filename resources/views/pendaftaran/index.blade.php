@@ -68,7 +68,7 @@
                 <td>{{sprintf("REG%08d", $row->no_registrasi)}}</td>
                 <td>{{sprintf("RM%08d", $row->no_rm)}}</td>
                 <td>{{$row->tanggal_lahir}}</td>
-                <td class="text-danger">{{sprintf("A%02d", $i + 1)}}</td>
+                <td class="text-danger">{{sprintf("A%02d", $row->no_antrian)}}</td>
                 <td>
                     <button class="btn btn-primary">edit</button>
                     <button class="btn btn-warning">cetak</button>
