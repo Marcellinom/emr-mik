@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('rw');
             $table->string('rt');
             $table->string('kode_pos');
-            $table->blob('signature');
+            $table->binary('signature');
             $table->timestamps();
         });
     }
