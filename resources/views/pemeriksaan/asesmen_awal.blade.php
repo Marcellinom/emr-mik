@@ -2,11 +2,11 @@
 @extends('pemeriksaan.navbar-atas')
 
 @section('content-header')
-    Asesmen Awal
+    Pemeriksaan
 @endsection
 
 @section('content-header-specific')
-    <i class="bi bi-person-plus-fill"></i> Pengisian Data
+    <i class="bi bi-person-plus-fill"></i> Asesmen Awal
 @endsection
 
 @section('prestyles')
@@ -55,7 +55,7 @@
                  "denyut_jantung" => "kali/menit",
                  "pernapasan" => "napas-menit",
                  "suhu" => "°C",
-                 "tingkat_kesadaran" => "CGS",
+                 "tingkat_kesadaran" => "GCS",
                  "tekanan_darah_sistole" => "mmHg",
                  "tekanan_darah_distole" => "mmHg",
                  "berat_badan" => "kg",

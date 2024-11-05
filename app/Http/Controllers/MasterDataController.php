@@ -45,7 +45,7 @@ class MasterDataController extends Controller
     public function getPasienByName(Request $request) {
         $name = $request->query('name');
         $res = DB::select("
-            select no_rm, nama from pasien where nama like ?
+            select no_rm, nama, nik, jenis_kelamin, tanggal_lahir from pasien where nama like ?
         ", ["%".$name."%"]);
 
         return response()->json([

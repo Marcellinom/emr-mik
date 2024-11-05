@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsesmenController;
+use App\Http\Controllers\KonselingController;
 use App\Http\Controllers\PemeriksaanController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\Controller;
@@ -44,6 +45,8 @@ Route::prefix('pemeriksaan')->group(function () {
     Route::get('/penunjang/{id}', [PemeriksaanController::class, 'getPenunjang']);
     Route::get('/resume_medis/{id}', [PemeriksaanController::class, 'getResumeMedis']);
 });
+
+Route::get('/konseling', [KonselingController::class, 'getKonselingPage']);
 
 // forms
 Route::get('/tambah_pasien', [FormController::class, 'getFormTambahPasien']);

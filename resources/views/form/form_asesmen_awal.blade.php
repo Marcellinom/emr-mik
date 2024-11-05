@@ -97,14 +97,14 @@
             </div>
             <div class="form-item">
                 <label>Tingkat Kesadaran <span class="text-danger">*</span> </label>
-                <input type="text" placeholder="CGS" id="tingkat_kesadaran" name="tingkat_kesadaran" required>
+                <input type="text" placeholder="GCS" id="tingkat_kesadaran" name="tingkat_kesadaran" required>
             </div>
             <div class="form-item">
                 <label>Tekanan Darah *Sistole <span class="text-danger">*</span> </label>
                 <input type="text" placeholder="mmHg" id="tekanan_darah_sistole" name="tekanan_darah_sistole" required>
             </div>
             <div class="form-item">
-                <label>Tekanan Darah *Distole <span class="text-danger">*</span> </label>
+                <label>Tekanan Darah *Diastole <span class="text-danger">*</span> </label>
                 <input type="text" placeholder="mmHg" id="tekanan_darah_distole" name="tekanan_darah_distole" required>
             </div>
             <div class="form-item">
