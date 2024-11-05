@@ -11,6 +11,8 @@
 @section('prestyles')
     <link href="https://cdn.datatables.net/v/dt/dt-2.1.8/datatables.min.css" rel="stylesheet">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/components/spinners/">
+{{--    dynamic select tag with search bar --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* Container styling */
         .container {
@@ -20,21 +22,21 @@
         }
 
         /* Form item styling */
-        .form-item {
+        .item {
             flex: 1 1 calc(33.33% - 20px); /* 3 items per row with gap */
             display: flex;
             flex-direction: column;
         }
 
         /* Label styling */
-        .form-item label {
+        .item label {
             font-size: 0.9em;
             color: #555;
             margin-bottom: 5px;
         }
 
         /* Input styling */
-        .form-item input,select {
+        .item input {
             padding: 5px;
             font-size: 1em;
             border: 1px solid #ccc;
@@ -45,11 +47,12 @@
 
 @section('prescripts')
     <script src="https://cdn.datatables.net/v/dt/dt-2.1.8/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endsection
 
 @section('content-body')
     <a class="btn btn-primary" href="tambah_pasien"><i class="bi bi-person-plus-fill"></i> Tambah Pasien Baru</a>
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target=".new-antrian">Daftarkan Pasien</button>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#new-antrian">Daftarkan Pasien</button>
     <table id="antrian" style="width:100%" class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -78,7 +81,7 @@
         </tbody>
     </table>
     <div class="modals">
-        <div class="modal fade new-antrian" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal fade" id="new-antrian" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -88,49 +91,41 @@
                         <form id="form-pendaftaran" action="pendaftaran" method="post">
                             @csrf
                             <div class="container">
-                                <div class="form-item">
+                                <div class="item">
                                     <label>Pasien <span class="text-danger">*</span> </label>
-                                    <input type="text" id="search_pasien" placeholder="cari nama pasien" autocomplete="off" hidden>
-                                    <div style="display: flex; gap: 10px" id="pasien">
-                                        <a href="#" id="search-btn-pasien"><i class="bi bi-search"></i></a>
-                                        <select id="res_pasien" name="no_rm" style="width: 100%" required>
-                                        </select>
-                                    </div>
+                                    <select name="no_rm" id="cari_pasien" required>
+                                    </select>
                                 </div>
-                                <div class="form-item">
+                                <div class="item">
                                     <label>Nama Penanggung Jawab <span class="text-danger">*</span> </label>
                                     <input type="text" id="nama_penanggung_jawab" name="nama_penanggung_jawab" required>
                                 </div>
-                                <div class="form-item">
+                                <div class="item">
                                     <label>Telp Penanggung Jawab <span class="text-danger">*</span> </label>
                                     <input type="number" id="no_telp_penanggung_jawab" name="no_telp_penanggung_jawab" required>
                                 </div>
-                                <div class="form-item">
+                                <div class="item">
                                     <label>Hubungan dengan Pasien <span class="text-danger">*</span> </label>
                                     <input type="text" id="hubungan_dengan_pasien" name="hubungan_dengan_pasien" required>
                                 </div>
-                                <div class="form-item">
+                                <div class="item">
                                     <label>Poliklinik Tujuan <span class="text-danger">*</span> </label>
                                     <input type="text" id="poliklinik_tujuan" name="poliklinik_tujuan" required>
                                 </div>
-                                <div class="form-item">
+                                <div class="item">
                                     <label>Dokter <span class="text-danger">*</span> </label>
-                                    <input type="text" id="search_dokter" placeholder="cari nama dokter" autocomplete="off" hidden>
-                                    <div style="display: flex; gap: 10px" id="dokter">
-                                        <a href="#" id="search-btn-dokter"><i class="bi bi-search"></i></a>
-                                        <select id="res_dokter" name="id_dokter" style="width: 100%" required>
-                                        </select>
-                                    </div>
+                                    <select name="id_dokter" id="cari_dokter" required>
+                                    </select>
                                 </div>
-                                <div class="form-item">
+                                <div class="item">
                                     <label>Cara Masuk <span class="text-danger">*</span> </label>
                                     <input type="text" id="cara_masuk" name="cara_masuk" required>
                                 </div>
-                                <div class="form-item">
+                                <div class="item">
                                     <label>Pembayaran <span class="text-danger">*</span> </label>
                                     <input type="text" id="pembayaran" name="pembayaran" required>
                                 </div>
-                                <div class="form-item">
+                                <div class="item">
                                     <label>No Asuransi/BPJS <span class="text-danger">*</span> </label>
                                     <input type="text" id="no_asuransi" name="no_asuransi" required>
                                 </div>
@@ -161,69 +156,65 @@
             $("#form-pendaftaran").submit()
         })
 
-        let typingTimer
-        $('#search_pasien').on('keyup', () => {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(searchPasien, 1000);  // 5 detik selesai typing baru ngesearch
-        })
-        $('#search_dokter').on('keyup', () => {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(searchDokter, 1000);  // 5 detik selesai typing baru ngesearch
-        })
-
-        $("#search-btn-pasien").on("click", (e) => {
-            $("#pasien").attr("hidden", true)
-            $('#search_pasien').removeAttr("hidden")
-            e.preventDefault()
-        })
-        $("#search-btn-dokter").on("click", (e) => {
-            $("#dokter").attr("hidden", true)
-            $('#search_dokter').removeAttr("hidden")
-            e.preventDefault()
-        })
-
-        function searchPasien() {
-            $.ajax({
-                url: `/api/pasien_by_name?name=${$('#search_pasien').val()}`,
+        $("#cari_pasien").select2({
+            tags: false,
+            dropdownParent: $('#new-antrian'),
+            allowClear: true,
+            minimumInputLength: 2,
+            ajax: {
+                delay: 500,
+                url: function (params) {
+                    return '/api/pasien_by_name?name=' + params.term;
+                },
                 type: "GET",
                 dataType: "json", // Expect JSON data in response
-                success: function(response) {
-                    $("#res_pasien").empty()
-                    for (v of response.data) {
-                        $("#res_pasien").append(`<option value=${v.no_rm}>${v.nama}</option>`)
+                processResults: function(data) {
+                    let datas = []
+                    for (v of data.data) {
+                        datas.push({
+                            id: v.no_rm,
+                            text: v.nama
+                        })
                     }
-                    console.log(response)
+                    return {
+                        results: datas
+                    }
                 },
                 error: function(xhr, status, error) {
                     alert(error.toString())
-                },
-                complete: function () {
-                    $("#pasien").removeAttr("hidden")
-                    $('#search_pasien').attr("hidden", true)
                 }
-            })
-        }
-        function searchDokter() {
-            $.ajax({
-                url: `/api/dokter_by_name?name=${$('#search_dokter').val()}`,
+            }
+        });
+
+        $("#cari_dokter").select2({
+            tags: false,
+            dropdownParent: $('#new-antrian'),
+            allowClear: true,
+            minimumInputLength: 2,
+            ajax: {
+                delay: 500,
+                url: function (params) {
+                    return '/api/dokter_by_name?name=' + params.term;
+                },
                 type: "GET",
                 dataType: "json", // Expect JSON data in response
-                success: function(response) {
-                    for (v of response.data) {
-                        $("#res_dokter").empty()
-                        $("#res_dokter").append(`<option value=${v.id}>${v.nama}</option>`)
+                processResults: function(data) {
+                    let datas = []
+                    for (v of data.data) {
+                        datas.push({
+                            id: v.id,
+                            text: v.nama
+                        })
                     }
-                    console.log(response)
+                    return {
+                        results: datas
+                    }
                 },
                 error: function(xhr, status, error) {
                     alert(error.toString())
-                },
-                complete: function () {
-                    $("#dokter").removeAttr("hidden")
-                    $('#search_dokter').attr("hidden", true)
                 }
-            })
-        }
+            }
+        });
         new DataTable('#antrian', {
             order: [[4, 'asc']]
         });
