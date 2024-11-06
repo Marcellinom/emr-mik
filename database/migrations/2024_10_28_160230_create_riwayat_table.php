@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('riwayat', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('no_rm');
-            $table->unsignedBigInteger('id_dokter');
-            $table->string('nama_penanggung_jawab');
-            $table->string('no_telp_penanggung_jawab');
-            $table->string('hubungan_dengan_pasien');
+            $table->unsignedBigInteger('no_rm')->index();
+            $table->unsignedBigInteger('id_dokter')->index();
+            $table->unsignedBigInteger("id_penanggung_jawab")->index();
             $table->string('poliklinik_tujuan');
             $table->string('cara_masuk');
             $table->string('pembayaran');
-            $table->string('no_asuransi');
+            $table->string('no_asuransi')->nullable();
+            $table->enum('status', ['Asesmen Awal', 'Pemeriksaan', 'Laboratorium', 'Radiologi', 'Farmasi', 'Kasir', 'Pasien Pulang'])->default('Asesmen Awal');
+            $table->integer('no_antrian')->default(1);
 
             $table->timestamps();
         });

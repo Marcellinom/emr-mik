@@ -42,7 +42,7 @@
     </div>
     <div class="form-item">
         <label>Dinamika Psikologi </label>
-        <textarea id="dinamika_psikologi" name="dinamika_psikologi" placeholder="idi dinamika psikologi"></textarea>
+        <textarea id="dinamika_psikologi" name="dinamika_psikologi" placeholder="isi dinamika psikologi"></textarea>
     </div>
     <div class="form-item">
         <label>Prioritas Intervensi </label>
@@ -58,6 +58,6 @@
     </div>
     <div class="form-item">
         <label>Rencana Intervensi Lanjutan</label>
-        <input type="text" placeholder="*jika ada" id="intervensi_lanjutan" name="intervensi_lanjutan">
+        <input type="text" placeholder="*jika ada" id="rencana_intervensi_lanjutan" name="rencana_intervensi_lanjutan">
     </div>
 </div>

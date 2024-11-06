@@ -2,54 +2,98 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Konseling;
+use App\Models\PenanggungJawab;
+use App\Models\Potensi;
+use App\Models\Riwayat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use ReflectionClass;
 use stdClass;
+use Throwable;
 use function compact;
+use function gettype;
+use function json_encode;
+use function redirect;
+use function typeOf;
 use function view;
 
 class KonselingController extends Controller
 {
     public function getKonselingPage() {
-        // PLIS DI MASA DEPAN UBAH INI JADI API CALL AJA, ini buat contoh aja
-        $diagnosa_1 = new stdClass();
-        $diagnosa_1->id = "K36.0";
-        $diagnosa_1->nama = "OTHER APPENDICTIS";
+        // TODO: PLIS DI MASA DEPAN UBAH INI JADI API CALL AJA, ini buat contoh aja
+        $list_diagnosa = DB::table('diagnosa')->get()->mapWithKeys(function ($item, int $key) {
+            return [$item->id => $item];
+        });
+        $list_tindakan = DB::table("tindakan")->get()->mapWithKeys(function (object $item, int $key) {
+            return [$item->id => $item];
+        });
 
-        $diagnosa_2 = new stdClass();
-        $diagnosa_2->id = "K302.0";
-        $diagnosa_2->nama = "AUTISME";
+        // TODO: ganti pake session
+        $dokter = DB::table('dokter')->where('id', '=', 1)->first();
 
-        $diagnosa_3 = new stdClass();
-        $diagnosa_3->id = "K40.0";
-        $diagnosa_3->nama = "DOWN SYNDROME";
-        $list_diagnosa = ["K36.0" => $diagnosa_1, "K302.0" => $diagnosa_2, "K40.0" => $diagnosa_3];
+        return view('konseling.index', compact('list_diagnosa', 'list_tindakan', 'dokter'));
+    }
 
-        $tindakan_1 = new stdClass();
-        $tindakan_1->id = "K123.0";
-        $tindakan_1->nama = "RAWAT INAP";
+    /**
+     * @throws Throwable
+     */
+    public function newKonseling(Request $request) {
+        DB::beginTransaction();
+        try {
+            $penanggung_jawab = PenanggungJawab::create($request->input());
+            // buat dulu riwayat medis pasien nya
 
-        $tindakan_2 = new stdClass();
-        $tindakan_2->id = "K239.2";
-        $tindakan_2->nama = "LOBOTOMI";
+            $riwayat = Riwayat::create([
+                'no_rm' => $request->input('no_rm'),
+                'id_dokter' => $request->input('id_dokter'),
+                'id_penanggung_jawab' => $penanggung_jawab->id,
+                'poliklinik_tujuan' => 'Poli Jiwa',
+                'cara_masuk' => 'Datang Sendiri',
+                'pembayaran' => 'Gratis',
+                'status' => 'Pasien Pulang'
+            ]);
 
-        $tindakan_3 = new stdClass();
-        $tindakan_3->id = "K59.0";
-        $tindakan_3->nama = "TABOK";
-        $list_tindakan = ["K123.0" => $tindakan_1, "K239.2" => $tindakan_2, "K59.0" => $tindakan_3];
+            Konseling::create([
+                'id_riwayat' => $riwayat->id,
+                ...$request->input(),
+                'klarifikasi_masalah' => json_encode($request->input('list_klarifikasi_masalah'))
+            ]);
 
-        $potensi_1 = new stdClass();
-        $potensi_1->id = 1;
-        $potensi_1->kemampuan_khusus = "TELEPATI";
-        $potensi_1->pengelolaan_emosi = "BAIK";
-        $potensi_1->pihak_pendukung = "KELUARGA";
+            $potensi = [];
+            foreach ($request->input('potensi') as $item) {
+                $potensi[] = [
+                    'id_riwayat' => $riwayat->id,
+                    'kemampuan_khusus' => $item['kemampuan_khusus'],
+                    'pengelolaan_emosi' => $item['pengelolaan_emosi'],
+                    'pihak_pendukung' => $item['pihak_pendukung'],
+                ];
+            }
 
-        $potensi_2 = new stdClass();
-        $potensi_2->id = 2;
-        $potensi_2->kemampuan_khusus = "CLAIRVOYANT";
-        $potensi_2->pengelolaan_emosi = "JELEK";
-        $potensi_2->pihak_pendukung = "TEMAN";
-        $list_potensi = [1 => $potensi_1, 2 => $potensi_2];
+            DB::table('potensi')->insert($potensi);
 
-        return view('konseling.index', compact('list_diagnosa', 'list_potensi', 'list_tindakan'));
+            $riwayat_diagnosa_payload = [];
+            $riwayat_tindakan_payload = [];
+            foreach ($request->input('diagnosa') as $item) {
+                $riwayat_diagnosa_payload[] = [
+                    'id_riwayat' => $riwayat->id,
+                    'id_diagnosa' => $item
+                ];
+            }
+            foreach ($request->input('tindakan') as $item) {
+                $riwayat_tindakan_payload[] = [
+                    'id_riwayat' => $riwayat->id,
+                    'id_tindakan' => $item
+                ];
+            }
+            DB::table('riwayat_diagnosa')->insert($riwayat_diagnosa_payload);
+            DB::table('riwayat_tindakan')->insert($riwayat_tindakan_payload);
+        } catch (Throwable $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+        DB::commit();
+        return redirect('konseling');
     }
 }

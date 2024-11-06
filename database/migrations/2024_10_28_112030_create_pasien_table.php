@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pasien', function (Blueprint $table) {
             $table->id('no_rm');
-            $table->string('nama');
+            $table->string('nama')->index();
             $table->string('nama_keluarga');
             $table->string('nik');
             $table->string('no_identitas_lain');

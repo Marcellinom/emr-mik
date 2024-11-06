@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PenanggungJawab;
 use App\Models\Riwayat;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 use function compact;
 use function redirect;
 use function view;
@@ -23,8 +24,23 @@ class PendaftaranController extends Controller
         return view('pendaftaran.index', compact('data_antrian'));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function newPendaftaran(Request $request) {
-        Riwayat::create([...$request->input(), 'no_antrian' => DB::table('riwayat')->where('status', '!=', 'Pasien Pulang')->count() + 1]);
+        DB::beginTransaction();
+        try {
+            $penanggung_jawab = PenanggungJawab::create($request->input());
+            Riwayat::create([
+                'id_penanggung_jawab' => $penanggung_jawab->id,
+                ...$request->input(),
+                'no_antrian' => DB::table('riwayat')->where('status', '!=', 'Pasien Pulang')->count() + 1]
+            );
+        } catch (Throwable $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+        DB::commit();
         return redirect('pendaftaran');
     }
 }

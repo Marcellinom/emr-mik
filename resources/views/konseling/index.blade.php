@@ -66,8 +66,8 @@
             <p id="info-kelamin-lahir"></p>
             <div class="btn-group">
 {{--                TODO: pake nama dokter dari session user--}}
-                <button id="info-dr" style="border-bottom-left-radius: 16px; border-top-left-radius: 16px; border-right: 1px black" disabled>Nama Dokter</button>
-                <button id="info-poli" style="border-bottom-right-radius: 16px; border-top-right-radius: 16px" disabled>Poli Konseling</button>
+                <button id="info-dr" style="border-bottom-left-radius: 16px; border-top-left-radius: 16px; border-right: 1px black" disabled>{{$dokter->nama}}</button>
+                <button id="info-poli" style="border-bottom-right-radius: 16px; border-top-right-radius: 16px" disabled>Poli Jiwa</button>
             </div>
         </div>
     </div>
@@ -153,7 +153,9 @@
 @section('content-body')
     <span id="pilih-pasien-notice"><h5 class="text-primary">Mohon pilih pasien terlebih dahulu</h5></span>
     <form id="form-konseling" method="post" action="konseling" hidden>
+        @csrf
         <input type="hidden" id="no_rm" name="no_rm">
+        <input type="hidden" id="id_dokter" name="id_dokter" value="{{$dokter->id}}">
         @include('konseling.navbar-kanan')
         @include('konseling.form-text-atas')
         <br>
@@ -162,8 +164,24 @@
         @include('konseling.tabel-tindakan')
         <br>
         @include('konseling.tabel-potensi-diri')
-        <button id="submit-btn" type="button" class="btn btn-success" style="margin-left: 88%">Simpan</button>
+        <a id="submit-btn" type="button" class="btn btn-success text-white" style="margin-left: 90%">Simpan</a>
     </form>
+@endsection
+
+@section('scripts')
+    <script>
+        const form = $("#form-konseling")
+        $("#submit-btn").click(e => {
+            e.preventDefault()
+            for (let v of document.querySelectorAll("#klarifikasi_masalah input[type=checkbox]")) {
+                if (v.checked) {
+                    form.append(`<input type='text' name='list_klarifikasi_masalah[]' value='${v.id}'>`)
+                }
+            }
+
+            form.submit()
+        })
+    </script>
 @endsection
 
 @section('prestyles')

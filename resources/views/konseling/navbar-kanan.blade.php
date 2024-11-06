@@ -68,11 +68,11 @@
                 <div class="container-keluarga">
                     <div class="form-item">
                         <label>Nama Lengkap <span class="text-danger">*</span> </label>
-                        <input type="text" id="nama" name="nama" required>
+                        <input type="text" id="nama" name="nama_penanggung_jawab" required>
                     </div>
                     <div class="form-item">
                         <label>Hubungan Keluarga <span class="text-danger">*</span> </label>
-                        <input type="text" id="nama" name="nama" required>
+                        <input type="text" id="nama" name="hubungan_dengan_pasien" required>
                     </div>
                     <div class="form-item">
                         <label>Jenis Kelamin <span class="text-danger">*</span> </label>
@@ -101,6 +101,10 @@
                     <div class="form-item">
                         <label>Pekerjaan <span class="text-danger">*</span> </label>
                         <input type="text" id="pekerjaan" name="pekerjaan" required>
+                    </div>
+                    <div class="form-item">
+                        <label>Telp Penanggung Jawab <span class="text-danger">*</span> </label>
+                        <input type="number" id="no_telp_penanggung_jawab" name="no_telp_penanggung_jawab" required>
                     </div>
                 </div>
             </div>

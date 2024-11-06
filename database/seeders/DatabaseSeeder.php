@@ -25,6 +25,35 @@ class DatabaseSeeder extends Seeder
             ]
         ]);
 
+        DB::table('diagnosa')->insert([
+            [
+                'id' => "K36.0",
+                'nama' => "OTHER APPENDICTIS"
+            ],
+            [
+                'id' => "K37.0",
+                'nama' => "AUTISME"
+            ],
+            [
+                'id' => "K38.0",
+                'nama' => "DOWN SYNDROME"
+            ],
+        ]);
+        DB::table("tindakan")->insert([
+            [
+                'id' => "K123.0",
+                'nama' => 'RAWAT INAP'
+            ],
+            [
+                'id' => "K124.0",
+                'nama' => 'LOBOTOMI'
+            ],
+            [
+                'id' => "K125.0",
+                'nama' => 'BEKAM'
+            ],
+        ]);
+
         // pasien seeder
         DB::table('pasien')->insert([
             [

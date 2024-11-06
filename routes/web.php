@@ -47,6 +47,7 @@ Route::prefix('pemeriksaan')->group(function () {
 });
 
 Route::get('/konseling', [KonselingController::class, 'getKonselingPage']);
+Route::post('/konseling', [KonselingController::class, 'newKonseling']);
 
 // forms
 Route::get('/tambah_pasien', [FormController::class, 'getFormTambahPasien']);

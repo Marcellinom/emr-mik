@@ -14,12 +14,11 @@ class Riwayat extends Model
     protected $fillable = [
         'no_rm',
         'id_dokter',
-        'nama_penanggung_jawab',
-        'no_telp_penanggung_jawab',
-        'hubungan_dengan_pasien',
+        'id_penanggung_jawab',
         'poliklinik_tujuan',
         'cara_masuk',
         'pembayaran',
         'no_asuransi',
+        'status',
     ];
 }

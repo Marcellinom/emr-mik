@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('riwayat', function (Blueprint $table) {
-            $table->enum('status', ['Asesmen Awal', 'Pemeriksaan', 'Laboratorium', 'Radiologi', 'Farmasi', 'Kasir', 'Pasien Pulang'])->default('Asesmen Awal');
+        Schema::create('riwayat_diagnosa', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_riwayat')->index();
+            $table->string('id_diagnosa', 10)->index();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('riwayat', function (Blueprint $table) {
-            $table->removeColumn('enum');
-        });
+        Schema::dropIfExists('riwayat_diagnosa');
     }
 };

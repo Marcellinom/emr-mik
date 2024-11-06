@@ -126,8 +126,8 @@
                                     <input type="text" id="pembayaran" name="pembayaran" required>
                                 </div>
                                 <div class="item">
-                                    <label>No Asuransi/BPJS <span class="text-danger">*</span> </label>
-                                    <input type="text" id="no_asuransi" name="no_asuransi" required>
+                                    <label>No Asuransi/BPJS</label>
+                                    <input type="text" id="no_asuransi" name="no_asuransi">
                                 </div>
                             </div>
                         </form>

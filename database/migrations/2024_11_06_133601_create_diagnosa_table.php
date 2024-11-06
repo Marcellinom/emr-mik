@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('riwayat', function (Blueprint $table) {
-            $table->integer('no_antrian')->default(1);
+        Schema::create('diagnosa', function (Blueprint $table) {
+            $table->string('id', 10)->primary();
+            $table->string('nama');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('riwayat', function (Blueprint $table) {
-            $table->dropColumn('no_antrian');
-        });
+        Schema::dropIfExists('diagnosa');
     }
 };
