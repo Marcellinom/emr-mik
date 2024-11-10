@@ -65,7 +65,6 @@
             <p id="info-nik"></p>
             <p id="info-kelamin-lahir"></p>
             <div class="btn-group">
-{{--                TODO: pake nama dokter dari session user--}}
                 <button id="info-dr" style="border-bottom-left-radius: 16px; border-top-left-radius: 16px; border-right: 1px black" disabled>{{$dokter->nama}}</button>
                 <button id="info-poli" style="border-bottom-right-radius: 16px; border-top-right-radius: 16px" disabled>Poli Jiwa</button>
             </div>

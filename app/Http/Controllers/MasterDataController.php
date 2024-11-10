@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function base64_encode;
 use function compact;
 use function dd;
 use function redirect;
@@ -27,6 +28,11 @@ class MasterDataController extends Controller
         ");
 
         return view("master_data.pasien", compact('data_pasien'));
+    }
+
+    public function getDetailPasien($id) {
+        $data = DB::table('pasien')->where('no_rm', $id)->first();
+        return view('form.data_pasien_readonly', compact('data'));
     }
 
     public function getPasienByIdRegistrasi(Request $request) {

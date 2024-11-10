@@ -31,7 +31,6 @@ class KonselingController extends Controller
             return [$item->id => $item];
         });
 
-        // TODO: ganti pake session
         $dokter = DB::select("
             select d.id, d.nama from dokter d
             join user_role u on u.user_id = ? and u.role_id = d.id

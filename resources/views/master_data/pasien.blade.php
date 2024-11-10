@@ -40,8 +40,8 @@
                     <td>{{$row->nama_dokter ?? "belum berkunjung"}}</td>
                     <td>{{$row->created_at ?? "belum berkunjung"}}</td>
                     <td>
-                        <button class="btn btn-primary">lihat</button>
-                        <button class="btn btn-warning">edit</button>
+                        <a href="/pasien/{{$row->no_rm}}" class="btn btn-primary">lihat</a>
+{{--                        <button class="btn btn-warning">edit</button>--}}
                     </td>
                 </tr>
             @endforeach
