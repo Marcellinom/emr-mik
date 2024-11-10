@@ -53,14 +53,14 @@
     </div>
 
     <div class="bd-toc-item">
-        <a href="antrian_pemeriksaan" class="nav-link">
+        <a href="/antrian_pemeriksaan" class="nav-link">
             <i class="bi bi-bandaid-fill"></i>
             <span>Pemeriksaan</span>
         </a>
     </div>
 
     <div class="bd-toc-item">
-        <a href="konseling" class="nav-link">
+        <a href="/konseling" class="nav-link">
             <i class="bi bi-bandaid"></i>
             <span>Konseling</span>
         </a>

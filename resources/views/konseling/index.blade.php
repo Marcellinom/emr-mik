@@ -159,13 +159,15 @@
         @include('konseling.navbar-kanan')
         @include('konseling.form-text-atas')
         <br>
-        @include('konseling.tabel-diagnosa')
+        @include('tabel-util.tabel-diagnosa')
         <br>
-        @include('konseling.tabel-tindakan')
+        @include('tabel-util.tabel-tindakan')
         <br>
-        @include('konseling.tabel-potensi-diri')
-        <a id="submit-btn" type="button" class="btn btn-success text-white" style="margin-left: 90%">Simpan</a>
+        @include('tabel-util.tabel-potensi-diri')
     </form>
+    <div class="container">
+        <button id="submit-btn" type="button" class="btn btn-success" style="margin-left: auto">Simpan</button>
+    </div>
 @endsection
 
 @section('scripts')

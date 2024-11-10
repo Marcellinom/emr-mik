@@ -68,12 +68,25 @@ class PemeriksaanController extends Controller
     }
 
     public function getSoape($id) {
-
+        // TODO: PLIS DI MASA DEPAN UBAH INI JADI API CALL AJA, ini buat contoh aja
+        $list_diagnosa = DB::table('diagnosa')->get()->mapWithKeys(function ($item, int $key) {
+            return [$item->id => $item];
+        });
+        $list_tindakan = DB::table("tindakan")->get()->mapWithKeys(function (object $item, int $key) {
+            return [$item->id => $item];
+        });
+        return view('pemeriksaan.soape', compact('id', 'list_diagnosa', 'list_tindakan'));
     }
     public function getPenunjang($id) {
+        $list_laboratorium = [];
+        $list_radiologi = [];
 
+        return view('pemeriksaan.penunjang', compact('list_laboratorium', 'list_radiologi', 'id'));
     }
     public function getResumeMedis($id) {
-
+        $row = DB::table('riwayat')->where('id', $id)->first();
+        $cara_masuk = $row->cara_masuk;
+        $tanggal = $row->created_at;
+        return view('pemeriksaan.resume', compact('id', 'cara_masuk', 'tanggal'));
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +20,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/login', [UserController::class, 'getLoginPage'])->name('login');
+Route::post('/login', [UserController::class, 'attemptLogin']);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('/', [Controller::class, 'dasboard']);
+Route::middleware('auth')->group(function () {
+    Route::get('/', [Controller::class, 'dashboard']);
+});
 // master data
 Route::get('/pasien', [MasterDataController::class, 'getPasien']);
 Route::post("/pasien", [MasterDataController::class, 'newPasien']);

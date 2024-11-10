@@ -73,7 +73,6 @@
                 <td>{{$row->tanggal_lahir}}</td>
                 <td class="text-danger">{{sprintf("A%02d", $row->no_antrian)}}</td>
                 <td>
-                    <button class="btn btn-primary">edit</button>
                     <button class="btn btn-warning">cetak</button>
                 </td>
             </tr>

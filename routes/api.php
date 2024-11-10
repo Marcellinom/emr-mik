@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("pasien_by_name", [MasterDataController::class, 'getPasienByName']);
-Route::get('pasien_by_id_registrasi', [MasterDataController::class, 'getPasienByIdRegistrasi']);
-Route::get("dokter_by_name", [MasterDataController::class, 'getDokterByName']);
+Route::get("/pasien_by_name", [MasterDataController::class, 'getPasienByName']);
+Route::get('/pasien_by_id_registrasi', [MasterDataController::class, 'getPasienByIdRegistrasi']);
+Route::get("/dokter_by_name", [MasterDataController::class, 'getDokterByName']);
+Route::get('/obat_by_name', [MasterDataController::class, 'getObatByName']);

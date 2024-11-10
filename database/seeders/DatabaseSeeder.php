@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,11 +19,25 @@ class DatabaseSeeder extends Seeder
         // dokter seeder
         DB::table('dokter')->insert([
             [
+                'id' => 1,
                 'nama' => 'DR YOSELYN O',
             ],
             [
+                'id' => 2,
                 'nama' => 'DR RAHMAT'
             ]
+        ]);
+
+        $user = User::create([
+            'name' => 'DR RAHMAT',
+            'username' => 'rahmat',
+            'password' => Hash::make('rahmat')
+        ]);
+
+        DB::table('user_role')->insert([
+            'user_id' => $user->id,
+            'role_id' => 2,
+            'type' => "dokter"
         ]);
 
         DB::table('diagnosa')->insert([
@@ -52,6 +67,31 @@ class DatabaseSeeder extends Seeder
                 'id' => "K125.0",
                 'nama' => 'BEKAM'
             ],
+        ]);
+
+        DB::table('laboratorium')->insert([
+            [
+                'nama' => 'Patologi Klinik'
+            ]
+        ]);
+
+        DB::table('radiologi')->insert([
+            [
+                'nama' => 'x-ray'
+            ]
+        ]);
+
+        DB::table('obat')->insert([
+            [
+                'nama' => 'TROGYL',
+                'sediaan_obat' => 'TABLET',
+                'stok' => 30
+            ],
+            [
+                'nama' => 'AMBROXOL',
+                'sediaan_obat' => 'TABLET',
+                'stok' => 30
+            ]
         ]);
 
         // pasien seeder

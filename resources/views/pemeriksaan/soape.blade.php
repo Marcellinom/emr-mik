@@ -2,15 +2,71 @@
 @extends('pemeriksaan.navbar-atas')
 
 @section('content-header')
-    Asesmen Awal
+    Pemeriksaan
 @endsection
 
 @section('content-header-specific')
-    <i class="bi bi-person-plus-fill"></i> Pengisian Data
+    <i class="bi bi-person-plus-fill"></i> Soape
+@endsection
+
+@section('content-body')
+    <form action="/pemeriksaan/soape" method="post">
+        <h5 class="text-primary"><i class="bi bi-info-circle"></i> SOAP</h5>
+        <div class="container">
+            <div class="form-item">
+                <label>Subjektif <span class="text-danger">*</span> </label>
+                <input type="text" id="subjektif" name="subjektif" required>
+            </div>
+            <div class="form-item">
+                <label>asesmen <span class="text-danger">*</span> </label>
+                <input type="text" id="asesmen" name="asesmen" required>
+            </div>
+            <div class="form-item">
+                <label>objektif <span class="text-danger">*</span> </label>
+                <input type="text" id="objektif" name="objektif" required>
+            </div>
+            <div class="form-item">
+                <label>rencana <span class="text-danger">*</span> </label>
+                <input type="text" id="rencana" name="rencana" required>
+            </div>
+        </div>
+        <br>
+        @include('tabel-util.tabel-diagnosa')
+        <br>
+        @include('tabel-util.tabel-tindakan')
+        <br>
+        @include('tabel-util.tabel-resep_obat')
+        <br>
+        <h5 class="text-primary">Edukasi</h5>
+        <div class="checkbox-item">
+            <input type="checkbox" name="penjelasan_penyakit">
+            <label for="keluarga">Penjelasan terkait penyakit; hasil pemeriksaan dan tindakan medis</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" name="penjelasan_obat">
+            <label for="pekerjaan">Penjelasan terkait obat-obatan yang diberikan</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" name="penjelasan_informed_consent">
+            <label for="emosi">Penjelasan terkait Informed Consent</label>
+        </div>
+    </form>
+    <div class="container">
+        <button id="submit-btn" type="button" class="btn btn-success" style="margin-left: auto">Simpan</button>
+    </div>
 @endsection
 
 @section('prestyles')
+    <link href="https://cdn.datatables.net/v/dt/dt-2.1.8/datatables.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
+        .checkbox-item {
+            display: flex;
+            gap: 2px;
+        }
+        .checkbox-item label {
+            font-size: 16px;
+        }
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -19,7 +75,7 @@
 
         /* Form item styling */
         .form-item {
-            flex: 1 1 calc(25% - 15px);
+            flex: 1 1 calc(50% - 15px);
             display: flex;
             flex-direction: column;
         }
@@ -42,10 +98,23 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #c7c7c7;
+        }
+        th {
+            border: 0;
+            background-color: #9ab4d0;
+            color: white;
+        }
     </style>
 @endsection
-
-
-@section('content-body')
-
+@section('prescripts')
+    <script src="https://cdn.datatables.net/v/dt/dt-2.1.8/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endsection

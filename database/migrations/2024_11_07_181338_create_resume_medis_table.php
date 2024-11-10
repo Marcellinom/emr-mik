@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('obat', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('sediaan_obat');
-            $table->integer('stok');
+        Schema::create('resume_medis', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_riwayat')->index();
+            $table->enum('status_pulang', ['Pulang', 'Meninggal', 'Konsultasi Kembali', 'Dirujuk']);
+            $table->binary('ttd_resume_medis');
+            $table->binary('ttd_informed_consent');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('obat');
+        Schema::dropIfExists('resume_medis');
     }
 };

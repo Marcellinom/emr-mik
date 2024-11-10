@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('obat', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('sediaan_obat');
-            $table->integer('stok');
-            $table->timestamps();
+        Schema::create('user_role', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('role_id')->index();
+            $table->enum('type', ['dokter', 'resepsionis', 'kasir']);
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('obat');
+        Schema::dropIfExists('user_role');
     }
 };

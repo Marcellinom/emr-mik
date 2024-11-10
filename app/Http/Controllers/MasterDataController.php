@@ -64,6 +64,10 @@ class MasterDataController extends Controller
         ]);
     }
 
+    public function getObatByName(Request $request) {
+
+    }
+
     public function newPasien(Request $request) {
         Pasien::create($request->input());
         return redirect('pasien');

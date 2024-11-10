@@ -8,6 +8,7 @@ use App\Models\Potensi;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use stdClass;
@@ -31,7 +32,11 @@ class KonselingController extends Controller
         });
 
         // TODO: ganti pake session
-        $dokter = DB::table('dokter')->where('id', '=', 1)->first();
+        $dokter = DB::select("
+            select d.id, d.nama from dokter d
+            join user_role u on u.user_id = ? and u.role_id = d.id
+            limit 1
+        ", [Auth::user()->id])[0];
 
         return view('konseling.index', compact('list_diagnosa', 'list_tindakan', 'dokter'));
     }
