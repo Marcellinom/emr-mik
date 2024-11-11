@@ -78,4 +78,21 @@
     function hapusDiagnosa(id) {
         document.getElementById(`diagnosa-${id}`).remove();
     }
+    @if(isset($data_diagnosa))
+        i = 0
+        const data_diagnosa = @json($data_diagnosa)
+
+        for (let d of data_diagnosa) {
+             $("#diagnosa-body").append(`
+                    <tr id="diagnosa-${i}">
+                        <td>${i+1}</td>
+                        <td>${d.id}</td>
+                        <td>${d.nama}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="hapusDiagnosa('${i}')">hapus</button></td>
+                        <input type='hidden' name="diagnosa[]" value="${d.id}">
+                    </tr>
+                `)
+             i++
+        }
+    @endif
 </script>

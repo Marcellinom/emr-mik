@@ -31,7 +31,7 @@
                 <div class="container">
                     <div class="form-item">
                         <label>Pilih Obat </label>
-                        <select name="no_rm" id="cari_obat" required>
+                        <select id="cari_obat" required>
                         </select>
                     </div>
                     <div class="form-item">
@@ -56,7 +56,7 @@
 </div>
 
 <script>
-    const data_pasien = {}
+    const data_obat = {}
     $("#cari_obat").select2({
         tags: false,
         allowClear: true,
@@ -74,9 +74,9 @@
             processResults: function(data) {
                 let datas = []
                 for (v of data.data) {
-                    data_pasien[v.no_rm] = v
+                    data_obat[v.id] = v
                     datas.push({
-                        id: v.no_rm,
+                        id: v.id,
                         text: v.nama
                     })
                 }
@@ -89,36 +89,36 @@
             }
         }
     });
+    $('#cari_obat').on("select2:select", function(e) {
+        $("#sediaan_obat").val(data_obat[$('#cari_obat').val()].sediaan_obat)
+    });
 </script>
 
 <script>
     new DataTable('#list-obat');
 
-    let i = 1
+    let i = 0
     $("#simpan-obat").click(e => {
-        let kemampuan_khusus = $("#kemampuan_khusus").val()
-        let pengelolaan_emosi = $("#pengelolaan_emosi").val()
-        let pihak_pendukung = $("#pihak_pendukung").val()
-
-        if ((kemampuan_khusus == null &&
-            pengelolaan_emosi == null &&
-            pihak_pendukung == null) || (
-            kemampuan_khusus == "" &&
-            pengelolaan_emosi == "" &&
-            pihak_pendukung == ""
-        )
+        let aturan = $("#aturan_pakai").val()
+        let jumlah = $("#jumlah").val()
+        let id_obat = $("#cari_obat").val()
+        if ((aturan == "" &&
+            jumlah == "" ) || (aturan == null &&
+            jumlah == null)
         ) return
 
         $("#obat-body").append(`
                 <tr id="obat-${i}">
-                    <td>${i}</td>
-                    <td>${kemampuan_khusus}</td>
-                    <td>${pengelolaan_emosi}</td>
-                    <td>${pihak_pendukung}</td>
+                    <td>${i+1}</td>
+                    <td>${id_obat}</td>
+                    <td>${data_obat[id_obat].nama}</td>
+                    <td>${data_obat[id_obat].sediaan_obat}</td>
+                    <td>${aturan}</td>
+                    <td>${jumlah}</td>
                     <td><button type="button" class="btn btn-danger" onclick="hapusObat('${i}')">hapus</button></td>
-                    <input type='hidden' name="obat[${i}][kemampuan_khusus]" value="${kemampuan_khusus}">
-                    <input type='hidden' name="obat[${i}][pengelolaan_emosi]" value="${pengelolaan_emosi}">
-                    <input type='hidden' name="obat[${i}][pihak_pendukung]" value="${pihak_pendukung}">
+                    <input type='hidden' name="obat[${i}][id]" value="${id_obat}">
+                    <input type='hidden' name="obat[${i}][aturan_pakai]" value="${aturan}">
+                    <input type='hidden' name="obat[${i}][jumlah]" value="${jumlah}">
                 </tr>
         `)
         i++
@@ -129,4 +129,27 @@
     function hapusObat(id) {
         document.getElementById(`obat-${id}`).remove();
     }
+
+    @if(isset($data_tindakan))
+        i = 0
+        const resep_obat = @json($data_obat)
+
+        for (let d of resep_obat) {
+            $("#obat-body").append(`
+                    <tr id="obat-${i}">
+                        <td>${i+1}</td>
+                        <td>${d.id}</td>
+                        <td>${d.nama}</td>
+                        <td>${d.sediaan_obat}</td>
+                        <td>${d.aturan_pakai}</td>
+                        <td>${d.jumlah}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="hapusObat('${i}')">hapus</button></td>
+                        <input type='hidden' name="obat[${i}][id]" value="${d.id}">
+                        <input type='hidden' name="obat[${i}][aturan_pakai]" value="${d.aturan_pakai}">
+                        <input type='hidden' name="obat[${i}][jumlah]" value="${d.jumlah}">
+                    </tr>
+            `)
+        i++
+    }
+    @endif
 </script>

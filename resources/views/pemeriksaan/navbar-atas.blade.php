@@ -111,7 +111,6 @@
             dataType: "json", // Expect JSON data in response
             success: function(response) {
                 let d = response.data[0]
-                console.log(d,  response.data)
                 $("#info-nama").html(d.nama)
                 $("#info-rm").html(`RM${pad(d.no_rm, 8)}`)
                 $("#info-nik").html(d.nik)

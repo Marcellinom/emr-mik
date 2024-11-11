@@ -10,7 +10,9 @@
 @endsection
 
 @section('content-body')
-    <form action="/pemeriksaan/soape" method="post">
+    <form id="form-soape" action="/pemeriksaan/soape" method="post">
+        @csrf
+        <input type="hidden" name="riwayat_id" value="{{$id}}">
         <h5 class="text-primary"><i class="bi bi-info-circle"></i> SOAP</h5>
         <div class="container">
             <div class="form-item">
@@ -39,21 +41,51 @@
         <br>
         <h5 class="text-primary">Edukasi</h5>
         <div class="checkbox-item">
-            <input type="checkbox" name="penjelasan_penyakit">
+            <input type="checkbox" name="penjelasan_penyakit" id="penjelasan_penyakit">
             <label for="keluarga">Penjelasan terkait penyakit; hasil pemeriksaan dan tindakan medis</label>
         </div>
         <div class="checkbox-item">
-            <input type="checkbox" name="penjelasan_obat">
+            <input type="checkbox" name="penjelasan_obat" id="penjelasan_obat">
             <label for="pekerjaan">Penjelasan terkait obat-obatan yang diberikan</label>
         </div>
         <div class="checkbox-item">
-            <input type="checkbox" name="penjelasan_informed_consent">
+            <input type="checkbox" name="penjelasan_informed_consent" id="penjelasan_informed_consent">
             <label for="emosi">Penjelasan terkait Informed Consent</label>
         </div>
     </form>
     <div class="container">
         <button id="submit-btn" type="button" class="btn btn-success" style="margin-left: auto">Simpan</button>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $("#submit-btn").click((e) => {
+            e.preventDefault()
+
+            let input_element = document.querySelectorAll('input')
+            for (let input of input_element) {
+                if (input.required) {
+                    if (input.value == null || input.value == "") {
+                        alert("mohon isi semua form yang memiliki simbol (*)")
+                        return
+                    }
+                }
+            }
+            $("#form-soape").submit()
+        })
+
+        const data_soap = @json($data_soap)
+
+        for (let i in data_soap) {
+            let e = $(`#${i}`)
+            if(e.attr('type') == 'checkbox') {
+                e.prop('checked', data_soap[i]);
+            } else {
+                e.val(data_soap[i])
+            }
+        }
+    </script>
 @endsection
 
 @section('prestyles')

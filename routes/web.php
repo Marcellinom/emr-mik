@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('pemeriksaan')->group(function () {
         Route::get('/asesmen_awal/{id}', [PemeriksaanController::class, 'dataAsesmenAwal']);
         Route::get('/soape/{id}', [PemeriksaanController::class, 'getSoape']);
+        Route::post('/soape', [PemeriksaanController::class, 'newSoape']);
         Route::get('/penunjang/{id}', [PemeriksaanController::class, 'getPenunjang']);
         Route::get('/resume_medis/{id}', [PemeriksaanController::class, 'getResumeMedis']);
     });

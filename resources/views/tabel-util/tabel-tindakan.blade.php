@@ -79,4 +79,21 @@
     function hapusTindakan(id) {
         document.getElementById(`tindakan-${id}`).remove();
     }
+    @if(isset($data_tindakan))
+        i = 0
+        const data_tindakan = @json($data_tindakan)
+
+        for (let d of data_tindakan) {
+            $("#tindakan-body").append(`
+                    <tr id="tindakan-${i}">
+                        <td>${i+1}</td>
+                        <td>${d.id}</td>
+                        <td>${d.nama}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="hapusTindakan('${i}')">hapus</button></td>
+                        <input type='hidden' name="tindakan[]" value="${d.id}">
+                    </tr>
+                `)
+        i++
+    }
+    @endif
 </script>

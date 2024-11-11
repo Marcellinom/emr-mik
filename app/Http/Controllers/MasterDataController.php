@@ -71,7 +71,12 @@ class MasterDataController extends Controller
     }
 
     public function getObatByName(Request $request) {
-
+        $res = DB::select("
+            select id, nama, sediaan_obat from obat where nama like ?
+        ", ["%".$request->query('name')."%"]);
+        return response()->json([
+            'data' => $res
+        ]);
     }
 
     public function newPasien(Request $request) {

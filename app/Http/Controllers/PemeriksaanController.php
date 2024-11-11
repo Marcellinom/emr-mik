@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\AsesmenAwal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 use function compact;
+use function dd;
 use function redirect;
 use function view;
 
@@ -75,8 +77,84 @@ class PemeriksaanController extends Controller
         $list_tindakan = DB::table("tindakan")->get()->mapWithKeys(function (object $item, int $key) {
             return [$item->id => $item];
         });
-        return view('pemeriksaan.soape', compact('id', 'list_diagnosa', 'list_tindakan'));
+        $data_soap = DB::table('soap')->where('id_riwayat', $id)->first();
+
+        $data_diagnosa = DB::select("
+            select id, nama from riwayat_diagnosa r
+            join diagnosa d on r.id_riwayat = ? and d.id = r.id_diagnosa
+        ", [$id]);
+        $data_tindakan = DB::select("
+            select id, nama from riwayat_tindakan r
+            join tindakan d on r.id_riwayat = ? and d.id = r.id_tindakan
+        ", [$id]);
+        $data_obat = DB::select("
+            select id, nama, sediaan_obat, aturan_pakai, jumlah from riwayat_obat r
+            join obat d on r.id_riwayat = ? and d.id = r.id_obat
+        ", [$id]);
+
+        return view('pemeriksaan.soape', compact('id', 'list_diagnosa', 'list_tindakan',
+            'data_soap', 'data_diagnosa', 'data_tindakan','data_obat'));
     }
+
+    /**
+     * @throws Throwable
+     */
+    public function newSoape(Request $request) {
+        $riwayat_id = $request->input('riwayat_id');
+        DB::beginTransaction();
+        try {
+            // delete dulu buat update value barunya
+            DB::table('soap')->where('id_riwayat', $riwayat_id)->delete();
+            DB::table('riwayat_diagnosa')->where('id_riwayat', $riwayat_id)->delete();
+            DB::table('riwayat_tindakan')->where('id_riwayat', $riwayat_id)->delete();
+            DB::table('riwayat_obat')->where('id_riwayat', $riwayat_id)->delete();
+
+            DB::table('soap')->insert([
+                [
+                    'id_riwayat' => $riwayat_id,
+                    'subjektif' => $request->input('subjektif'),
+                    'asesmen' => $request->input('asesmen'),
+                    'objektif' => $request->input('objektif'),
+                    'rencana' => $request->input('rencana'),
+                    'penjelasan_penyakit' => (bool)$request->input('penjelasan_penyakit'),
+                    'penjelasan_obat' => (bool)$request->input('penjelasan_obat'),
+                    'penjelasan_informed_consent' => (bool)$request->input('penjelasan_informed_consent')
+                ]
+            ]);
+            $diagnosa_payload = [];
+            $tindakan_payload = [];
+            $obat_payload = [];
+            foreach ($request->input('diagnosa') ?? [] as $item) {
+                $diagnosa_payload[] = [
+                    'id_riwayat' => $riwayat_id,
+                    'id_diagnosa' => $item
+                ];
+            }
+            foreach ($request->input('tindakan') ?? [] as $item) {
+                $tindakan_payload[] = [
+                    'id_riwayat' => $riwayat_id,
+                    'id_tindakan' => $item
+                ];
+            }
+            foreach ($request->input('obat') ?? [] as $item) {
+                $obat_payload[] = [
+                    'id_riwayat' => $riwayat_id,
+                    'id_obat' => $item['id'],
+                    'aturan_pakai' => $item['aturan_pakai'],
+                    'jumlah' => (int)$item['jumlah']
+                ];
+            }
+            DB::table('riwayat_diagnosa')->insert($diagnosa_payload);
+            DB::table('riwayat_tindakan')->insert($tindakan_payload);
+            DB::table('riwayat_obat')->insert($obat_payload);
+        } catch (Throwable $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+        DB::commit();
+        return redirect("/pemeriksaan/soape/{$riwayat_id}");
+    }
+
     public function getPenunjang($id) {
         $list_laboratorium = DB::table("laboratorium")->get()->mapWithKeys(function (object $item, int $key) {
             return [$item->id => $item];
