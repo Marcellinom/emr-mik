@@ -2,8 +2,12 @@
 </p>
 
 # Requirements
-- composer
+- PHP [link download](https://windows.php.net/download#php-8.3)
+- composer [link download](https://getcomposer.org/download/)
 - MySql databse
+
+# Setup laravel untuk pertama kali
+https://www.youtube.com/watch?v=2qgS_MCvDfk
 
 # How to use
 1. copy .env.example paste jadi .env
