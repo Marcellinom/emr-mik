@@ -34,7 +34,8 @@
         <button id="current" style="border-bottom-left-radius: 16px; border-top-left-radius: 16px; border: 1px solid black" disabled>✓ Daftar Obat</button>
         <a href="pesanan-obat"><button style="border-bottom-right-radius: 16px; border-top-right-radius: 16px">Pesanan Obat</button></a>
 
-    </div> <a class="btn btn-primary" href="pendaftaran"><i class="bi bi-person-plus-fill"></i> Tambah Daftar Obat</a>
+    </div>
+{{--    <a class="btn btn-primary" href="pendaftaran"><i class="bi bi-person-plus-fill"></i> Tambah Daftar Obat</a>--}}
 
     <table id="obat" style="width:100%" class="table table-striped table-bordered">
         <thead>
@@ -54,24 +55,24 @@
         <tr>
             <td>1</td>
             <td>ONR00001</td>
-            <td>Trogyl</td>
+            <td>TROGYL</td>
             <td>OBAT BEBAS TERBATAS</td>
             <td>TABLET</td>
             <td>30</td>
             <td>30/10/24</td>
             <td>5</td>
-            <td><button class="btn btn-primary">lihat</button> <button class="btn btn-warning">edit</button></td>
+            <td></td>
         </tr>
         <tr>
             <td>2</td>
             <td>ONR00002</td>
-            <td>Ibuprofen</td>
+            <td>AMBROXOL</td>
             <td>OBAT BEBAS</td>
-            <td>SUSPENSI</td>
+            <td>TABLET</td>
             <td>22</td>
             <td>30/11/24</td>
             <td>36</td>
-            <td><button class="btn btn-primary">lihat</button> <button class="btn btn-warning">edit</button></td>
+            <td></td>
         </tr>
         </tbody>
     </table>

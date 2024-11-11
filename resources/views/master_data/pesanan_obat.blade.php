@@ -34,7 +34,8 @@
         <a href="obat"><button style="border-bottom-left-radius: 16px; border-top-left-radius: 16px">Daftar Obat</button></a>
         <button id="current" style="border-bottom-right-radius: 16px; border-top-right-radius: 16px; border: 1px solid black" disabled>Pesanan Obat ✓ </button>
 
-    </div> <a class="btn btn-primary" href="pendaftaran"><i class="bi bi-person-plus-fill"></i> Tambah Pesanan Obat</a>
+    </div>
+{{--    <a class="btn btn-primary" href="pendaftaran"><i class="bi bi-person-plus-fill"></i> Tambah Pesanan Obat</a>--}}
 
     <table id="obat" style="width:100%" class="table table-striped table-bordered">
         <thead>
@@ -58,7 +59,7 @@
             <td>Kimia Farma</td>
             <td>30</td>
             <td class="text-warning">Dipesan</td>
-            <td><button class="btn btn-warning">edit</button></td>
+            <td></td>
         </tr>
         <tr>
             <td>2</td>
@@ -68,7 +69,7 @@
             <td>Kimia Farma</td>
             <td>30</td>
             <td class="text-warning">Dipesan</td>
-            <td><button class="btn btn-warning">edit</button></td>
+            <td></td>
         </tr>
         </tbody>
     </table>

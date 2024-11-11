@@ -78,8 +78,12 @@ class PemeriksaanController extends Controller
         return view('pemeriksaan.soape', compact('id', 'list_diagnosa', 'list_tindakan'));
     }
     public function getPenunjang($id) {
-        $list_laboratorium = [];
-        $list_radiologi = [];
+        $list_laboratorium = DB::table("laboratorium")->get()->mapWithKeys(function (object $item, int $key) {
+            return [$item->id => $item];
+        });
+        $list_radiologi = DB::table("radiologi")->get()->mapWithKeys(function (object $item, int $key) {
+            return [$item->id => $item];
+        });
 
         return view('pemeriksaan.penunjang', compact('list_laboratorium', 'list_radiologi', 'id'));
     }

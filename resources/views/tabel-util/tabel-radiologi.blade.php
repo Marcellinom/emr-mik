@@ -13,11 +13,11 @@
         </tbody>
     </table>
     <div style="float: right; padding-bottom: 10px">
-        <a class="btn btn-info text-white" data-toggle="modal" data-target="#data-diagnosis">Tambah</a>
+        <a class="btn btn-info text-white" data-toggle="modal" data-target="#data-radiologi">Tambah</a>
     </div>
 </div>
 
-<div class="modal fade" id="data-diagnosis" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="data-radiologi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,7 +27,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table id="list-diagnosis" style="width:100%" class="table table-striped table-bordered">
+                <table id="list-radiologi" style="width:100%" class="table table-striped table-bordered">
                     <thead>
                     <tr>
                         <th>Kode</th>
@@ -54,7 +54,7 @@
 </div>
 
 <script>
-    new DataTable('#list-diagnosis');
+    new DataTable('#list-radiologi');
     const radiologi_all = @json($list_radiologi)
 
     $("#simpan-radiologi").click(e => {
