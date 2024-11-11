@@ -43,4 +43,8 @@ class PendaftaranController extends Controller
         DB::commit();
         return redirect('pendaftaran');
     }
+
+    public function hapusRiwayat(Request $request) {
+        DB::table('riwayat')->where('id', $request->input('id'))->delete();
+    }
 }

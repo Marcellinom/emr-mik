@@ -67,7 +67,7 @@
                     <td>{{$row->tanggal_lahir}}</td>
                     <td><a href="asesmen?id_registrasi={{$row->no_registrasi}}" class="btn btn-warning text-white font-weight-bold" style="border-radius: 25px;">Proses Asesmen ></a> </td>
                     <td>
-                        <button class="btn btn-danger">Hapus</button>
+                        <button class="btn btn-danger" onclick="hapusRiwayat({{$row->no_registrasi}})">Hapus</button>
                     </td>
                 </tr>
             @endforeach
@@ -75,5 +75,17 @@
     </table>
     <script>
         new DataTable('#antrian');
+        function hapusRiwayat(id) {
+            $.ajax({
+                url: '/api/riwayat',
+                method: 'delete',
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    location.reload()
+                }
+            })
+        }
     </script>
 @endsection

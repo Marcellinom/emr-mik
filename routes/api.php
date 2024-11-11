@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MasterDataController;
+use App\Http\Controllers\PendaftaranController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,4 @@ Route::get("/pasien_by_name", [MasterDataController::class, 'getPasienByName']);
 Route::get('/pasien_by_id_registrasi', [MasterDataController::class, 'getPasienByIdRegistrasi']);
 Route::get("/dokter_by_name", [MasterDataController::class, 'getDokterByName']);
 Route::get('/obat_by_name', [MasterDataController::class, 'getObatByName']);
+Route::delete('/riwayat', [PendaftaranController::class, 'hapusRiwayat']);
