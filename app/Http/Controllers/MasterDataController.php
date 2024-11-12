@@ -35,6 +35,21 @@ class MasterDataController extends Controller
         return view('form.data_pasien_readonly', compact('data'));
     }
 
+    public function getRiwayatPasien($id) {
+        $pasien = DB::table('pasien')->where('no_rm', $id)->first();
+        $riwayat = DB::select("
+            select r.id, r.created_at as tanggal_kunjungan, poliklinik_tujuan as poli,
+                   d.nama as dokter,
+                   case when rm.ttd_resume_medis is not null then true
+                   else false end as resume
+            from riwayat r
+            join dokter d on r.no_rm = ? and r.id_dokter = d.id
+            join resume_medis rm on rm.id_riwayat = r.id
+        ", [$id]);
+
+        return view('master_data.riwayat_berobat', compact('pasien', 'riwayat'));
+    }
+
     public function getPasienByIdRegistrasi(Request $request) {
         $id = $request->query('id_registrasi');
         $res = DB::select("

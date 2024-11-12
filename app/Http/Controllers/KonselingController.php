@@ -66,7 +66,7 @@ class KonselingController extends Controller
             ]);
 
             $potensi = [];
-            foreach ($request->input('potensi') as $item) {
+            foreach ($request->input('potensi') ?? [] as $item) {
                 $potensi[] = [
                     'id_riwayat' => $riwayat->id,
                     'kemampuan_khusus' => $item['kemampuan_khusus'],
@@ -79,13 +79,13 @@ class KonselingController extends Controller
 
             $riwayat_diagnosa_payload = [];
             $riwayat_tindakan_payload = [];
-            foreach ($request->input('diagnosa') as $item) {
+            foreach ($request->input('diagnosa') ?? [] as $item) {
                 $riwayat_diagnosa_payload[] = [
                     'id_riwayat' => $riwayat->id,
                     'id_diagnosa' => $item
                 ];
             }
-            foreach ($request->input('tindakan') as $item) {
+            foreach ($request->input('tindakan') ?? [] as $item) {
                 $riwayat_tindakan_payload[] = [
                     'id_riwayat' => $riwayat->id,
                     'id_tindakan' => $item

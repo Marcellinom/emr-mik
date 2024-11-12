@@ -62,7 +62,7 @@
                 </div>
             @endif
             <br>
-            <div style="background-color: white; padding: 10px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); border-radius: 20px">
+            <div id="content-body" style="background-color: white; padding: 10px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); border-radius: 20px">
             @yield('content-body')
             </div>
         </main>
@@ -79,12 +79,29 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script>
-    $(document).ready(function($) {
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
-    });
+    @if(isset($readonly) and $readonly === true)
+        const contentBody = document.getElementById('content-body');
+        if (contentBody) {
+            // Select all clickable elements inside content-body
+            const clickables = contentBody.querySelectorAll('a, button, input, [onclick]');
+
+            // Make each element unclickable
+            clickables.forEach(element => {
+                // For <a> tags, prevent their default behavior
+                if (element.tagName === 'A') {
+                    element.addEventListener('click', event => event.preventDefault());
+                }
+                // For <button> and <input>, disable them
+                else if (element.tagName === 'BUTTON' || element.tagName === 'INPUT') {
+                    element.disabled = true;
+                }
+                // For other elements with an 'onclick' attribute, remove it
+                else if (element.hasAttribute('onclick')) {
+                    element.removeAttribute('onclick');
+                }
+            });
+        }
+    @endif
 </script>
 @yield('js')
 </body>

@@ -7,7 +7,7 @@
 {{--ini ikon user nya--}}
 <nav class="collapse bd-links col flex-column" id="bd-docs-nav" style="color: dimgrey; justify-self: center; margin-right: 5px;">
     <img src="https://www.w3schools.com/howto/img_avatar.png" alt="img" style="border-radius: 50%; height: 2rem">
-    <span>Admin</span>
+    <span>{{Auth::user()->name}}</span>
 </nav>
 
 {{--ini menu-menu nya--}}

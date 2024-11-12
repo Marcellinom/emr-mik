@@ -78,4 +78,19 @@
     function hapusLaboratorium(id) {
         document.getElementById(`laboratorium-${id}`).remove();
     }
+    @if(isset($data_lab))
+        i = 1
+        for (d of @json($data_lab)) {
+            $("#laboratorium-body").append(`
+                    <tr id="laboratorium-${i}">
+                        <td>${i}</td>
+                        <td>${d.id}</td>
+                        <td>${d.nama}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="hapusLaboratorium('${i}')">hapus</button></td>
+                        <input type='hidden' name="laboratorium[]" value="${d.id}">
+                    </tr>
+                `)
+            i++
+        }
+    @endif
 </script>

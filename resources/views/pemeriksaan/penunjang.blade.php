@@ -10,12 +10,25 @@
 @endsection
 
 @section('content-body')
+    <form id="form-penunjang" action="/pemeriksaan/penunjang" method="post">
+        @csrf
+        <input type="hidden" name="id_riwayat" value="{{$id}}">
     <div class="container">
-        @include('tabel-util.tabel-laboratorium')
-        <br>
-        @include('tabel-util.tabel-radiologi')
-        <br>
+            @include('tabel-util.tabel-laboratorium')
+            @include('tabel-util.tabel-radiologi')
     </div>
+    </form>
+    <div class="container">
+        <button id="submit-btn" type="button" class="btn btn-success" style="margin-left: auto">Simpan</button>
+    </div>
+@endsection
+@section('scripts')
+    <script>
+        $("#submit-btn").click((e) => {
+            e.preventDefault()
+            $("#form-penunjang").submit()
+        })
+    </script>
 @endsection
 
 @section('prestyles')

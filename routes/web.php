@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     // master data
     Route::get('/pasien', [MasterDataController::class, 'getPasien']);
     Route::get('/pasien/{id}', [MasterDataController::class, 'getDetailPasien']);
+    Route::get('/pasien/{id}/riwayat', [MasterDataController::class, 'getRiwayatPasien']);
     Route::post("/pasien", [MasterDataController::class, 'newPasien']);
     Route::get('/obat', [MasterDataController::class, 'getObat']);
     Route::get('/pesanan-obat', [MasterDataController::class, 'getPesananObat']);
@@ -51,7 +52,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/soape/{id}', [PemeriksaanController::class, 'getSoape']);
         Route::post('/soape', [PemeriksaanController::class, 'newSoape']);
         Route::get('/penunjang/{id}', [PemeriksaanController::class, 'getPenunjang']);
+        Route::post('/penunjang', [PemeriksaanController::class, 'newPenunjang']);
         Route::get('/resume_medis/{id}', [PemeriksaanController::class, 'getResumeMedis']);
+        Route::post('/resume_medis', [PemeriksaanController::class, 'newResumeMedis']);
     });
 
     Route::get('/konseling', [KonselingController::class, 'getKonselingPage']);

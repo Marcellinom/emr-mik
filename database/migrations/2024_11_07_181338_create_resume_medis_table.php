@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('resume_medis', function (Blueprint $table) {
             $table->unsignedBigInteger('id_riwayat')->index();
             $table->enum('status_pulang', ['Pulang', 'Meninggal', 'Konsultasi Kembali', 'Dirujuk']);
-            $table->binary('ttd_resume_medis');
-            $table->binary('ttd_informed_consent');
+            $table->binary('ttd_resume_medis')->nullable();
+            $table->binary('ttd_informed_consent')->nullable();
             $table->timestamps();
         });
     }

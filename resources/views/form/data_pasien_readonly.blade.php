@@ -20,11 +20,11 @@
 @extends('layouts.master')
 
 @section('content-header')
-    Pendaftaran
+    Master Data
 @endsection
 
 @section('content-header-specific')
-    <i class="bi bi-person-plus-fill"></i> Tambah Data Pasien
+    <i class="bi bi-person-plus-fill"></i> Detail Pasien
 @endsection
 
 @section('prestyles')
@@ -89,6 +89,13 @@
         <br>
         <a id="show_form_persetujuan" class="btn btn-primary text-white" data-toggle="modal">Lihat</a>
     </div>
+    <div style="box-shadow:0 .6rem 1rem rgba(0,0,0,.15); background-color: white; padding: 10px; border: 1px solid black; border-radius: 10px">
+        <i class="bi bi-info-circle"></i> <span style="font-weight: bold">Rekam Medis</span>
+        <br><br>
+        Riwayat Berobat Pasien
+        <br>
+        <a href="/pasien/{{$data->no_rm}}/riwayat" class="btn btn-primary text-white">Lihat</a>
+    </div>
 @endsection
 
 @section('scripts')
@@ -103,7 +110,7 @@
             backgroundColor: 'rgba(255, 255, 255, 0)',
             penColor: 'rgb(0, 0, 0)'
         });
-        console.log(`data:image/png;base64,${data.signature}`)
+
         signaturePad.fromDataURL(data.signature)
         $("#show_form_persetujuan").click((e) => {
             e.preventDefault()

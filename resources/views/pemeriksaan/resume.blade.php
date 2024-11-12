@@ -9,28 +9,58 @@
     <i class="bi bi-person-plus-fill"></i> Penunjang
 @endsection
 
+@section('prescripts')
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+@endsection
+
 @section('content-body')
-    <div class="container">
-        <div class="form-item">
-            <label>Tanggal <span class="text-danger">*</span> </label>
-            <input type="datetime-local" id="tanggal" disabled value="{{$tanggal}}">
+    <form id="form-resume-medis" action="/pemeriksaan/resume_medis" method="post">
+        @csrf
+        <input type="hidden" name="id_riwayat" id="id_riwayat" value="{{$id}}">
+        <div class="container">
+            @include('pemeriksaan.navbar-kanan')
+            <div class="form-item">
+                <label>Tanggal <span class="text-danger">*</span> </label>
+                <input type="datetime-local" id="tanggal" disabled value="{{$tanggal}}">
+            </div>
+            <div class="form-item">
+                <label>Cara Masuk <span class="text-danger">*</span> </label>
+                <input type="text" id="cara_masuk" disabled value="{{$cara_masuk}}">
+            </div>
+            <div class="form-item">
+                <label>Status Pulang <span class="text-danger">*</span> </label>
+                <select id="status_pulang" name="status_pulang" required>
+                    <option value="{{$row_resume->status_pulang}}" selected disabled hidden>{{$row_resume->status_pulang}}</option>
+                    <option value="Pulang">Pulang</option>
+                    <option value="Meninggal">Meninggal</option>
+                    <option value="Konsultasi Kembali">Konsultasi Kembali</option>
+                    <option value="Dirujuk">Dirujuk</option>
+                </select>
+            </div>
+            <button id="submit-btn" type="button" class="btn btn-success" style="margin-left: auto">Simpan dan Akhiri Pemeriksaan</button>
         </div>
-        <div class="form-item">
-            <label>Cara Masuk <span class="text-danger">*</span> </label>
-            <input type="text" id="cara_masuk" disabled value="{{$cara_masuk}}">
-        </div>
-        <div class="form-item">
-            <label>Status Pulang <span class="text-danger">*</span> </label>
-            <select>
-                <option value="" selected disabled hidden>Pilih Status Pulang</option>
-                <option value="Pulang">Pulang</option>
-                <option value="Meninggal">Meninggal</option>
-                <option value="Konsultasi Kembali">Konsultasi Kembali</option>
-                <option value="Dirujuk">Dirujuk</option>
-            </select>
-        </div>
-        <button id="submit-btn" type="button" class="btn btn-success" style="margin-left: auto">Simpan</button>
-    </div>
+        <input type="hidden" id="input_ttd_resume_medis" name="ttd_resume_medis">
+        <input type="hidden" id="input_ttd_informed_consent" name="ttd_informed_consent">
+    </form>
+@endsection
+
+@section('scripts')
+    <script>
+        $("#submit-btn").click((e) => {
+            e.preventDefault()
+            let sp = $("#status_pulang").val()
+            if (sp == "" || sp == null) {
+                alert('harus isi status pulang!')
+                return
+            }
+            for (let i in ttd_pad) {
+                if (ttd_pad[i].isEmpty()) continue
+                let data = ttd_pad[i].toDataURL('image/png');
+                $(`#input_${i}`).val(data)
+            }
+            $("#form-resume-medis").submit()
+        })
+    </script>
 @endsection
 
 @section('prestyles')
@@ -89,7 +119,4 @@
             color: white;
         }
     </style>
-@endsection
-@section('prescripts')
-    <script src="https://cdn.datatables.net/v/dt/dt-2.1.8/datatables.min.js"></script>
 @endsection

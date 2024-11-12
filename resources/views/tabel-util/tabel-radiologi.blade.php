@@ -78,4 +78,19 @@
     function hapusRadiologi(id) {
         document.getElementById(`radiologi-${id}`).remove();
     }
+    @if(isset($data_radiologi))
+        i = 1
+        for (d of @json($data_radiologi)) {
+            $("#radiologi-body").append(`
+                    <tr id="radiologi-${i}">
+                        <td>${i}</td>
+                        <td>${d.id}</td>
+                        <td>${d.nama}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="hapusRadiologi('${i}')">hapus</button></td>
+                        <input type='hidden' name="radiologi[]" value="${d.id}">
+                    </tr>
+                `)
+            i++
+        }
+    @endif
 </script>

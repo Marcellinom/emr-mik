@@ -92,8 +92,10 @@ class PemeriksaanController extends Controller
             join obat d on r.id_riwayat = ? and d.id = r.id_obat
         ", [$id]);
 
+        $readonly = DB::table('riwayat')->where('id', $id)->first()?->status == "Pasien Pulang";
+
         return view('pemeriksaan.soape', compact('id', 'list_diagnosa', 'list_tindakan',
-            'data_soap', 'data_diagnosa', 'data_tindakan','data_obat'));
+            'data_soap', 'data_diagnosa', 'data_tindakan','data_obat', 'readonly'));
     }
 
     /**
@@ -162,13 +164,93 @@ class PemeriksaanController extends Controller
         $list_radiologi = DB::table("radiologi")->get()->mapWithKeys(function (object $item, int $key) {
             return [$item->id => $item];
         });
+        $data_lab = DB::select("
+            select id, l.nama from riwayat_laboratorium r
+            join laboratorium l on r.id_riwayat = ? and r.id_laboratorium = l.id
+        ", [$id]);
+        $data_radiologi = DB::select("
+            select id, nama from riwayat_radiologi i
+            join radiologi r on i.id_riwayat = ? and r.id = i.id_radiologi
+        ", [$id]);
 
-        return view('pemeriksaan.penunjang', compact('list_laboratorium', 'list_radiologi', 'id'));
+        $readonly = DB::table('riwayat')->where('id', $id)->first()?->status == "Pasien Pulang";
+
+        return view('pemeriksaan.penunjang', compact('list_laboratorium', 'list_radiologi', 'id',
+            'data_lab', 'data_radiologi', 'readonly'
+        ));
     }
+
+    /**
+     * @throws Throwable
+     */
+    public function newPenunjang(Request $request) {
+        $id = $request->input('id_riwayat');
+        DB::beginTransaction();
+        try {
+            DB::table('riwayat_laboratorium')->where('id_riwayat', $id)->delete();
+            DB::table('riwayat_radiologi')->where('id_riwayat', $id)->delete();
+
+            $lab_payload = [];
+            $radiologi_payload = [];
+            foreach ($request->input('laboratorium') ?? []as $item) {
+                $lab_payload[] = [
+                    'id_riwayat' => $id,
+                    'id_laboratorium' => $item
+                ];
+            }
+            foreach ($request->input('radiologi') ?? []as $item) {
+                $radiologi_payload[] = [
+                    'id_riwayat' => $id,
+                    'id_radiologi' => $item
+                ];
+            }
+            DB::table('riwayat_laboratorium')->insert($lab_payload);
+            DB::table('riwayat_radiologi')->insert($radiologi_payload);
+        } catch (Throwable $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+        DB::commit();
+        return redirect("/pemeriksaan/penunjang/{$id}");
+    }
+
     public function getResumeMedis($id) {
         $row = DB::table('riwayat')->where('id', $id)->first();
+        $row_resume = DB::table('resume_medis')->where('id_riwayat', $id)->first();
         $cara_masuk = $row->cara_masuk;
         $tanggal = $row->created_at;
-        return view('pemeriksaan.resume', compact('id', 'cara_masuk', 'tanggal'));
+        $readonly = $row->status == "Pasien Pulang" && $row_resume->ttd_resume_medis !== null;
+        return view('pemeriksaan.resume', compact('id', 'cara_masuk', 'tanggal', 'readonly', 'row_resume'));
+    }
+
+    public function newResumeMedis(Request $request) {
+        DB::transaction(function () use ($request) {
+            $row = DB::table('resume_medis')->where('id_riwayat', $request->input('id_riwayat'))->first();
+            if ($row !== null) {
+                $payload = [];
+                if ($row->ttd_resume_medis === null) {
+                    $payload['ttd_resume_medis'] = $request->input('ttd_resume_medis');
+                }
+                if ($row->ttd_informed_consent === null) {
+                    $payload['ttd_informed_consent'] = $request->input('ttd_informed_consent');
+                }
+                DB::table('resume_medis')->where('id_riwayat', $request->input('id_riwayat'))
+                    ->update($payload);
+            } else {
+                DB::table('resume_medis')->insert([
+                    [
+                        'id_riwayat' => $request->input('id_riwayat'),
+                        'status_pulang' => $request->input('status_pulang'),
+                        'ttd_resume_medis' => $request->input('ttd_resume_medis'),
+                        'ttd_informed_consent' => $request->input('ttd_informed_consent')
+                    ]
+                ]);
+                DB::table('riwayat')->where('id', $request->input('id_riwayat'))
+                    ->update([
+                        'status' => 'Pasien Pulang'
+                ]);
+            }
+        });
+        return redirect('/antrian_pemeriksaan');
     }
 }
